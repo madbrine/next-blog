@@ -81,7 +81,7 @@ export function getPublicationsList(value: number): IPublicationsList {
 }
 
 // получение последних 10 публикаций конкретной категории
-export function getAllPublicationsByCategory(categoryId: number, value: number): IPublicationsList {
+export function getPublicationsByCategory(categoryId: number, value: number): IPublicationsList {
     const stmt = db.prepare('SELECT id, userId, categoryId, date, updateDate, header, description, imageUrl, views, likes, comments FROM publications WHERE categoryId = ? AND id > ? ORDER BY id ASC LIMIT 10');
     const rows = stmt.all(categoryId, value);
     const totalStmt = db.prepare('SELECT COUNT(*) as total FROM publications WHERE categoryId = ?');
@@ -91,7 +91,7 @@ export function getAllPublicationsByCategory(categoryId: number, value: number):
 }
 
 // получение самых просматриваемых 10 публикаций
-export function getAllPublicationsByViews(value: number): IPublicationsList {
+export function getPublicationsByViews(value: number): IPublicationsList {
     const stmt = db.prepare('SELECT id, userId, categoryId, date, updateDate, header, description, imageUrl, views, likes, comments FROM publications WHERE views > ? ORDER BY views DESC, id ASC LIMIT 10');
     const rows = stmt.all(value);
     const totalStmt = db.prepare('SELECT COUNT(*) as total FROM publications');
@@ -100,7 +100,7 @@ export function getAllPublicationsByViews(value: number): IPublicationsList {
     return { publications: rows as Omit<IPublication, 'content' | 'commentaries'>[], totalCount };
 }
 //получение самых просматриваемых 10 публикаций конкретной категории
-export function getAllPublicationsByCategoryByViews(categoryId: number, value: number): IPublicationsList {
+export function getPublicationsByCategoryByViews(categoryId: number, value: number): IPublicationsList {
     const stmt = db.prepare('SELECT id, userId, categoryId, date, updateDate, header, description, imageUrl, views, likes, comments FROM publications WHERE categoryId = ? AND views > ? ORDER BY views DESC, id ASC LIMIT 10');
     const rows = stmt.all(categoryId, value);
     const totalStmt = db.prepare('SELECT COUNT(*) as total FROM publications WHERE categoryId = ?');

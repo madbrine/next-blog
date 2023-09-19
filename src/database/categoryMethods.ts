@@ -17,7 +17,7 @@ export function deleteCategory(id: number) {
     const result = stmt.run(id);
 }
 // получение всего списка категорий
-export function getAllCategories(): ICategory[] {
+export function getCategories(): ICategory[] {
     const stmt = db.prepare('SELECT * FROM categories');
     return stmt.all() as ICategory[];
 }

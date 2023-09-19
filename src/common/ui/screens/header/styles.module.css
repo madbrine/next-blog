@@ -1,0 +1,42 @@
+.container {
+    height: 64px;
+
+    padding-left: 16px;
+    padding-right: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: var(--light-blue);
+}
+
+.logo {
+    width: 36px;
+    height: 36px;
+
+    margin-left: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: dotted 2px var(--blue);
+    color: var(--blue);
+}
+
+.header-section-menu {
+    display: flex;
+    align-items: center;
+}
+
+.header-section-search {
+    border: solid 1px black;
+    width: 640px;
+    justify-self: space-around;
+}
+
+.header-section-sign {
+    display: flex;
+    align-items: center;
+}

@@ -1,0 +1,17 @@
+import { NextApiRequest, NextApiResponse } from "next";
+import { updatePublication } from "@/database/publicationsMethods";
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    if (req.method !== 'PUT') {
+        return res.status(405).end();
+    }
+    try {
+        const { id } = req.query;
+        const updatedPublication = JSON.parse(req.body);
+        updatePublication(Number(id), updatedPublication);
+        res.status(200).json({ message: 'Publication updated' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error on updating publication' });
+    }
+}

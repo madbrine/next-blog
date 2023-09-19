@@ -8,9 +8,15 @@ export function addUser(user: IUser) {
     const stmt = db.prepare('INSERT INTO users (userName, imageUrl) VALUES (?, ?)');
     const result = stmt.run(user.userName, user.imageUrl);
 }
+// получение пользователя
+export function getUserById(userId: number): IUser | null {
+    const stmt = db.prepare('SELECT * FROM users WHERE id = ?');
+    const user = stmt.get(userId);
 
+    return user as IUser | null;
+}
 // получение всего списка пользователей
-export function getAllUsers(): IUser[] {
+export function getUsers(): IUser[] {
     const stmt = db.prepare('SELECT * FROM users');
     const rows = stmt.all();
 
