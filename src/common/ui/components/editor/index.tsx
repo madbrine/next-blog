@@ -332,9 +332,11 @@ function Editor({ data }: IProps) {
                                     <TextField
                                         label="Ссылка изображения"
                                         variant="outlined"
-                                        value={isMainImage}
+                                        value={isContent[key].data}
                                         onChange={(e) => {
-                                            setMainImage(e.target.value);
+                                            const updatedContent = [...isContent];
+                                            updatedContent[key].data = e.target.value;
+                                            setContent(updatedContent);
                                         }}
                                     />
                                     {/* <Input
