@@ -174,61 +174,6 @@ function Editor({ data }: IProps) {
         }
     }
 
-
-    function ImageUploader() {
-        const [imageUrl, setImageUrl] = useState<string>('');
-        const [selectedImage, setSelectedImage] = useState<File | null>(null);
-
-        const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-            const file = e.target.files?.[0];
-            setSelectedImage(file || null);
-        };
-
-        const uploadImage = async () => {
-            if (!selectedImage) {
-                alert('Выберите изображение');
-                return;
-            }
-
-            const formData = new FormData();
-            formData.set('key', 'fe52611a0a7ceacd4633f7683bae7255')
-            formData.append('image', selectedImage);
-
-            try {
-
-                axios.post('https://api.imgbb.com/1/upload/', formData)
-                    .then((response) => {
-                        console.log('Success:', response.data);
-                    })
-                    .catch((error) => {
-                        console.log('Error:', error.status);
-                    });
-            } catch (error) {
-                console.log()
-                console.error('Ошибка при загрузке изображения:', error);
-                alert('Произошла ошибка при загрузке изображения.');
-            }
-        };
-
-        return (
-            <Box>
-                <Input
-                    type="file"
-                    onChange={handleImageChange}
-                />
-                <Button onClick={uploadImage}>Загрузить изображение</Button>
-                {imageUrl && (
-                    <Stack spacing={1}>
-                        <Typography>Ссылка на изображение:</Typography>
-                        <Link href={imageUrl} target="_blank" rel="noopener noreferrer">
-                            {imageUrl}
-                        </Link>
-                    </Stack>
-                )}
-            </Box>
-        );
-    }
-
     return (
 
         <Box
@@ -288,7 +233,6 @@ function Editor({ data }: IProps) {
                             setMainImage(e.target.value);
                         }}
                     />
-                    <ImageUploader />
                     {/* <Input
                         type="file"
                         inputProps={{ accept: 'image/*' }}
@@ -296,7 +240,8 @@ function Editor({ data }: IProps) {
                     />
                     <Button variant="contained" onClick={handleUploadImage}>
                         Upload Image
-                    </Button> */}
+                    </Button> */
+                    }
                 </Paper>
 
                 {isContent.map((content, key) => {
@@ -377,26 +322,31 @@ function Editor({ data }: IProps) {
                                 </Stack>
                             }
                             {content.type === 'img' &&
-                                <Stack direction="row">
-                                    <Paper
-                                        className={s['text-field']}
-                                        sx={{
-                                            p: 1,
-                                            bgcolor: "gray"
+                                <Paper
+                                    className={s['upload-img']}
+                                    sx={{
+                                        p: 1,
+                                        bgcolor: "#f2f2f2"
+                                    }}
+                                >
+                                    <TextField
+                                        label="Ссылка изображения"
+                                        variant="outlined"
+                                        value={isMainImage}
+                                        onChange={(e) => {
+                                            setMainImage(e.target.value);
                                         }}
-                                    >
-                                        загрузить фотографию
-                                    </Paper>
-
-                                    <IconButton arial-label="delete"
-                                        onClick={() => {
-                                            const updatedContent = [...isContent];
-                                            updatedContent.splice(key, 1);
-                                            setContent(updatedContent);
-                                        }}>
-                                        <ClearIcon />
-                                    </IconButton>
-                                </Stack>
+                                    />
+                                    {/* <Input
+                        type="file"
+                        inputProps={{ accept: 'image/*' }}
+                        onChange={handleImageChange}
+                    />
+                    <Button variant="contained" onClick={handleUploadImage}>
+                        Upload Image
+                    </Button> */
+                                    }
+                                </Paper>
                             }
                         </>
                     )
