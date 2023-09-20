@@ -1,0 +1,25 @@
+.stack {
+    margin-top: 16px;
+}
+.button-box {
+    margin-top: 2px;
+    margin-left: 16px;
+}
+.button {
+    width: 100%;
+
+    padding: 8px 16px;
+
+    justify-content: start;
+
+    background-color: none;
+
+    text-transform: none;
+    color: var(--gray)
+}
+
+.button:hover {
+    background-color: #fff;
+
+    color: var(--dark-gray);
+}

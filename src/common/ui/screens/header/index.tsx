@@ -1,16 +1,30 @@
 import { Box, Button, IconButton, InputBase, Paper, Stack } from "@mui/material";
 import { useRouter } from "next/router";
 import NavigateMenuButton from "../../components/navigate-menu-button";
-import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import s from './styles.module.css'
+import SignButton from "../../components/sign-button";
+import SearchInput from "../../components/search-input";
+import SignModal from "../../components/sign-modal";
+import { network } from "@/common/utils/network";
+import { useEffect } from "react";
+import useStore from "@/common/hooks/useStore";
+import { observer } from "mobx-react-lite";
 
 function HeaderScreen() {
 
     const router = useRouter();
-    
-    const navigateNewPost = () => {
-        router.push('/new-post');
+    const rootStore = useStore();
+
+    useEffect(() => {
+        const token = sessionStorage.getItem('token');
+        if (network.post.checkToken(token)) {
+            rootStore.setSignTrue();
+        }
+    }, [router])
+
+    const navigateNewPublication = () => {
+        router.push('/new-publication');
     }
 
     return (
@@ -21,7 +35,7 @@ function HeaderScreen() {
                 zIndex: 10
             }}
         >
-            
+            <SignModal />
             <Stack
                 direction="row"
                 className={s['container']}>
@@ -37,55 +51,32 @@ function HeaderScreen() {
                 <Stack
                     direction="row"
                     sx={{
-                        width: '640px',
+                        width: '615px',
                         alignItems: 'center',
                         justifyContent: 'space-between'
                     }}
                 >
-                    <Paper
-                        component="form"
-                        elevation={0}
-                        sx={{
-                            p: '4px 4px 4px 16px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            bgcolor: '#b3d3f8',
-                        }}
-                    >
-                        <InputBase
-                            sx={{
-                                width: '15pc',
-                            }}
-                            placeholder="Поиск"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                        <IconButton
-                            type="button"
-                            sx={{ p: '6px' }}
-                            aria-label="search"
+                    {/* <SearchInput/> */}
+                    {rootStore.sign &&
+                        <Button
+                            variant="contained"
                             size="small"
+                            startIcon={<AddIcon />}
+                            sx={{
+                                height: '36px',
+                                borderRadius: '6px',
+                                bgcolor: '#fff',
+                                color: '#595959'
+                            }}
+                            onClick={navigateNewPublication}
                         >
-                            <SearchIcon />
-                        </IconButton>
-                    </Paper>
-                    <Button
-                        variant="contained"
-                        size="small"
-                        startIcon={<AddIcon />}
-                        sx={{
-                            height: '36px',
-                            borderRadius: '6px',
-                            bgcolor: '#fff',
-                            color: '#595959'
-                        }}
-                        onClick={navigateNewPost}
-                    >
-                        Создать
-                    </Button>
+                            Создать
+                        </Button>
+                    }
                 </Stack>
-
+                <SignButton />
             </Stack>
         </Box>
     )
 }
-export default HeaderScreen;
+export default observer(HeaderScreen);

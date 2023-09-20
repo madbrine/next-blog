@@ -2,6 +2,7 @@ import { Button, IconButton, Stack } from "@mui/material"
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import useStore from "@/common/hooks/useStore";
+import { observer } from "mobx-react";
 
 function SignButton() {
 
@@ -11,17 +12,18 @@ function SignButton() {
 
     const setSign = () => {
         rootStore.setSign();
+        sessionStorage.setItem('token', '')
     }
-    
+
     const setSignModal = () => {
         rootStore.setSignModal();
     } 
     return (
         <Stack direction="row">
-            <IconButton arial-label="notifications" size="large">
+            {/* <IconButton arial-label="notifications" size="large">
                 <NotificationsNoneIcon />
-            </IconButton>
-            {isSign ?
+            </IconButton> */}
+            {!isSign ?
                 <Button
                     variant="text"
                     size="large"
@@ -41,4 +43,4 @@ function SignButton() {
         </Stack>
     )
 }
-export default SignButton
+export default observer(SignButton);

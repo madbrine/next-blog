@@ -11,13 +11,14 @@ function NavigateMenuButton() {
     }
 
     return (
-        <IconButton
-            arial-label="menu" 
-            size="large"
-            onClick={handleNavigateMenu} 
-        >
-            <MenuIcon />
-        </IconButton>
+        // <IconButton
+        //     arial-label="menu" 
+        //     size="large"
+        //     onClick={handleNavigateMenu} 
+        // >
+        //     <MenuIcon />
+        // </IconButton>
+        <></>
     )
 }
 export default NavigateMenuButton;

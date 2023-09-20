@@ -1,0 +1,8 @@
+.container {
+    width: 640px;
+
+    margin-top: 64px;
+    margin-left: calc(50vw - 347px - var(--navigate-menu-width));
+
+    justify-self: center;
+}

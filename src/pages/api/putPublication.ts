@@ -7,9 +7,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     try {
         const { id } = req.query;
-        const updatedPublication = JSON.parse(req.body);
+        const updatedPublication = req.body;
         updatePublication(Number(id), updatedPublication);
         res.status(200).json({ message: 'Publication updated' });
+        return console.dir(updatedPublication);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error on updating publication' });

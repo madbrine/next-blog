@@ -29,7 +29,7 @@ export function getPublicationById(id: number): IPublication | null {
 
 
 export function addPublication(publication: IPublication) {
-    const stmt = db.prepare('INSERT INTO publications (userId, categoryId, date, update, header, description, imageUrl, views, likes, comments, content, commentaries) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    const stmt = db.prepare('INSERT INTO publications (userId, categoryId, date, updateDate, header, description, imageUrl, views, likes, comments, content, commentaries) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
     const result = stmt.run(
         publication.userId,
         publication.categoryId,
@@ -48,9 +48,8 @@ export function addPublication(publication: IPublication) {
 
 // обновление публикации по ID
 export function updatePublication(id: number, updatedPublication: IPublication) {
-    const stmt = db.prepare('UPDATE publications SET userId = ?, categoryId = ?, date = ?, update = ?, header = ?, description = ?, imageUrl = ?, views = ?, likes = ?, comments = ?, content = ?, commentaries = ? WHERE id = ?');
+    const stmt = db.prepare('UPDATE publications SET userId = ?, categoryId = ?, date = ?, updateDate = ?, header = ?, description = ?, imageUrl = ?, views = ?, likes = ?, comments = ?, content = ?, commentaries = ? WHERE id = ?');
     const result = stmt.run(
-        id,
         updatedPublication.userId,
         updatedPublication.categoryId,
         updatedPublication.date,
@@ -62,7 +61,8 @@ export function updatePublication(id: number, updatedPublication: IPublication) 
         updatedPublication.likes,
         updatedPublication.comments,
         JSON.stringify(updatedPublication.content),
-        JSON.stringify(updatedPublication.commentaries)
+        JSON.stringify(updatedPublication.commentaries),
+        id 
     );
 }
 // удаление публикации по id
@@ -70,16 +70,21 @@ export function deletePublication(id: number) {
     const stmt = db.prepare('DELETE FROM publications WHERE id = ?');
     const result = stmt.run(id);
 }
-// получение последних 10 публикаций
+// получение первых 10 публикаций
+// export function getPublicationsList(value: number): IPublicationsList {
+//     const stmt = db.prepare('SELECT id, userId, categoryId, date, updateDate, header, description, imageUrl, views, likes, comments FROM publications ORDER BY id DESC LIMIT 10');
+//     const rows = stmt.all(value);
+//     const totalStmt = db.prepare('SELECT COUNT(*) as total FROM publications');
+//     const totalCount = totalStmt.pluck().get() as number;
+//     return { publications: rows as Omit<IPublication, 'content' | 'commentaries'>[], totalCount };
+// }
 export function getPublicationsList(value: number): IPublicationsList {
-    const stmt = db.prepare('SELECT id, userId, categoryId, date, updateDate, header, description, imageUrl, views, likes, comments FROM publications WHERE id > ? ORDER BY id ASC LIMIT 10');
-    const rows = stmt.all(value);
+    const stmt = db.prepare('SELECT id, userId, categoryId, date, updateDate, header, description, imageUrl, views, likes, comments FROM publications ORDER BY id DESC LIMIT 10');
+    const rows = stmt.all();
     const totalStmt = db.prepare('SELECT COUNT(*) as total FROM publications');
     const totalCount = totalStmt.pluck().get() as number;
-
     return { publications: rows as Omit<IPublication, 'content' | 'commentaries'>[], totalCount };
 }
-
 // получение последних 10 публикаций конкретной категории
 export function getPublicationsByCategory(categoryId: number, value: number): IPublicationsList {
     const stmt = db.prepare('SELECT id, userId, categoryId, date, updateDate, header, description, imageUrl, views, likes, comments FROM publications WHERE categoryId = ? AND id > ? ORDER BY id ASC LIMIT 10');

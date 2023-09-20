@@ -2,7 +2,7 @@ import { ICategory } from "@/common/types/ICategory";
 import { db } from "./db";
 
 //добавление категории
-export function addCategory(category: ICategory) {
+export function addCategory(category: Omit<ICategory, 'id'>) {
     const stmt = db.prepare('INSERT INTO categories (imageUrl, text) VALUES (?, ?)');
     const result = stmt.run(category.imageUrl, category.text);
 }

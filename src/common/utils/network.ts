@@ -27,7 +27,7 @@ export const network = {
         categories: async () => {
             try {
                 const response = await axios.get('/api/getCategories'); 
-                return response.data;
+                return response.data as ICategory[];
             } catch (error: any) {
                 throw new Error(`Failed to fetch categories: ${error.message}`);
             }
@@ -40,9 +40,9 @@ export const network = {
                 throw new Error(`Failed to fetch publication: ${error.message}`);
             }
         },
-        publications: async () => {
+        publications: async (value: number) => {
             try {
-                const response = await axios.get('/api/getPublications'); 
+                const response = await axios.get(`/api/getPublications?value=${value}`); 
                 return response.data;
             } catch (error: any) {
                 throw new Error(`Failed to fetch publications: ${error.message}`);
@@ -90,9 +90,13 @@ export const network = {
         }
     },
     post: {
-        category: async (categoryData: ICategory) => {
+        category: async (categoryData: Omit<ICategory, 'id'>) => {
             try {
-                const response = await axios.post('/api/addCategory', categoryData); 
+                const response = await axios.post('/api/postCategory', categoryData, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }); 
                 return response.data;
             } catch (error: any) {
                 throw new Error(`Failed to add category: ${error.message}`);
@@ -100,7 +104,7 @@ export const network = {
         },
         commentToPublication: async ({publicationId, commentData}: IComment) => {
             try {
-                const response = await axios.post(`/api/addCommentToPublication?publicationId=${publicationId}`, commentData); 
+                const response = await axios.post(`/api/postCommentToPublication?publicationId=${publicationId}`, commentData); 
                 return response.data;
             } catch (error: any) {
                 throw new Error(`Failed to add comment to publication: ${error.message}`);
@@ -108,7 +112,7 @@ export const network = {
         },
         publication: async (publicationData: IPublication) => {
             try {
-                const response = await axios.post('/api/addPublication', publicationData);
+                const response = await axios.post('/api/postPublication', publicationData);
                 return response.data;
             } catch (error: any) {
                 throw new Error(`Failed to add publication: ${error.message}`);
@@ -116,12 +120,40 @@ export const network = {
         },
         user: async (userData: IUser) => {
             try {
-                const response = await axios.post('/api/addUser', userData);
+                const response = await axios.post('/api/postUser', userData);
                 return response.data;
             } catch (error: any) {
                 throw new Error(`Failed to add user: ${error.message}`);
             }
         },
+        signIn: async (data: {login: string, password: string}) => {
+            try {
+                const response = await axios.post('https://dummyjson.com/auth/login', {
+                    username: data.login,
+                    password: data.password,
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+    
+                console.log(response.data);
+                sessionStorage.setItem('token', response.data.token.substring(0, 36));
+                console.log(`token is ${response.data.token.substring(0, 36)}`)
+    
+                return true;
+            } catch (error) {
+                console.error(error);
+                return false;
+            }
+        },
+        checkToken: (token: string | null) => {
+            if (token == "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9") {
+                return true;
+            } else {
+                return false;
+            }
+        }
     },
     put: {
         category: async (categoryId: number, updatedCategoryData: ICategory) => {

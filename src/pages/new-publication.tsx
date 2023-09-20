@@ -1,9 +1,9 @@
-import HeaderScreen from '@/common/ui/screens/header'
-import NavigateMenuScreen from '@/common/ui/screens/navigate-menu'
-import PublicationsScreen from '@/common/ui/screens/publications'
-import Head from 'next/head'
+import EditorScreen from '@/common/ui/screens/new-publication';
+import HeaderScreen from '@/common/ui/screens/header';
+import NavigateMenuScreen from '@/common/ui/screens/navigate-menu';
+import Head from 'next/head';
 
-export default function HomePage() {
+export default function NewPublicationPage() {
   return (
     <>
       <Head>
@@ -16,7 +16,7 @@ export default function HomePage() {
         <HeaderScreen />
         <div style={{ display: 'flex' }}>
           <NavigateMenuScreen />
-          <PublicationsScreen />
+          <EditorScreen />
         </div>
       </main>
     </>

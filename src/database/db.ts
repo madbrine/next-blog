@@ -6,7 +6,7 @@ db.exec(`
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY,
     userName TEXT,
-    imageUrl TEXT,
+    imageUrl TEXT
 );
 
 CREATE TABLE IF NOT EXISTS categories (
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS categories (
 
 CREATE TABLE IF NOT EXISTS publications (
     id INTEGER PRIMARY KEY,
-    userId: INTEGER,
+    userId INTEGER,
     categoryId INTEGER,
     date TEXT,
     updateDate TEXT,

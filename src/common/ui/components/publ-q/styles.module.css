@@ -1,0 +1,7 @@
+.container {
+    margin-left: 16px;
+    margin-right: 64px;
+
+    font-size: 20px;
+    color: var(--dark-gray);
+}

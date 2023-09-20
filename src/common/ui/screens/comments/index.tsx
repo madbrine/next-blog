@@ -1,7 +1,7 @@
-function EditorScreen() {
+function CommentsScreen() {
     return (
         <>
         </>
     )
 }
-export default EditorScreen;
+export default CommentsScreen;

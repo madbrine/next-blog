@@ -1,15 +1,9 @@
-import RootStore from '@/common/store/root'
+import { store } from '@/common/store/root'
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { createContext } from 'react';
 import { Roboto } from 'next/font/google'
 import moment from 'moment';
-
-const store = RootStore.create({
-  navigateMenu: true,
-  sign: false,
-  signModal: false
-});
 
 const roboto = Roboto({
   subsets: ['cyrillic', 'latin'],

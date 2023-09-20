@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
         const { id } = req.query;
         deletePublication(Number(id));
-        res.status(204).end();
+        return res.status(200).end();
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'An error occurred while deleting the publication' });

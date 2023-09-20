@@ -7,9 +7,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
-        const publicationData = JSON.parse(req.body);
+        const publicationData = req.body;
         addPublication(publicationData);
-        res.status(201).json({ message: 'Publication added successfully' });
+        res.status(200).json({ message: 'Publication added successfully' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'An error occurred while adding the publication' });
