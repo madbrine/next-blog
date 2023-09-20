@@ -322,6 +322,7 @@ function Editor({ data }: IProps) {
                                 </Stack>
                             }
                             {content.type === 'img' &&
+                            <Stack direction="row">
                                 <Paper
                                     className={s['upload-img']}
                                     sx={{
@@ -349,6 +350,15 @@ function Editor({ data }: IProps) {
                     </Button> */
                                     }
                                 </Paper>
+                                    <IconButton arial-label="delete"
+                                        onClick={() => {
+                                            const updatedContent = [...isContent];
+                                            updatedContent.splice(key, 1);
+                                            setContent(updatedContent);
+                                        }}>
+                                        <ClearIcon />
+                                    </IconButton>
+                                </Stack>
                             }
                         </>
                     )
